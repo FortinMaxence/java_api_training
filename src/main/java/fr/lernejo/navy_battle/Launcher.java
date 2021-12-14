@@ -19,8 +19,10 @@ public class Launcher {
                 System.out.println("Adversary's URL " + args[1] + " isn't valid !");
                 return;
             }
-            Client client = new Client(port);
-            client.sendPostRequest(args[1]);
+            PostRequest postRequest = new PostRequest(port);
+            postRequest.sendPostRequest(args[1]);
+            FireHandler fire = new FireHandler();
+            fire.sendFireRequest(args[1], "F2");
         }
     }
 }

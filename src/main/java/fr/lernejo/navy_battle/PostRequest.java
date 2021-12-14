@@ -5,10 +5,10 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class Client {
+public class PostRequest {
     private final int port;
 
-    public Client(int port){
+    public PostRequest(int port){
         this.port = port;
     }
 
