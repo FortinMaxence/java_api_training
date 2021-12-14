@@ -14,18 +14,21 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 public class PostHandler implements HttpHandler  {
+    private final Game game;
+    public PostHandler(Game game){
+        this.game = game;
+    }
 
     private final String schema = "{\"$schema\": \"http://json-schema.org/schema#\",\"type\": \"object\",\"properties\": " +
         "{\"id\": {\"type\": \"string\"},\"url\": {\"type\": " +
         "\"string\"},\"message\": {\"type\": \"string\"}},\"required\": " +
         "[\"id\",\"url\",\"message\"]}";
 
-    public String getJsonRequest(HttpExchange exchange) throws IOException {
+    public JSONObject getJsonRequest(HttpExchange exchange) throws IOException {
         InputStreamReader isr = new InputStreamReader(exchange.getRequestBody());
         BufferedReader br = new BufferedReader(isr);
         String value = br.readLine();
-        JSONObject json = new JSONObject(value);
-        return json.toString();
+        return new JSONObject(value);
     }
 
     @Override
@@ -34,8 +37,8 @@ public class PostHandler implements HttpHandler  {
         SchemaValidator schemaValidator = new SchemaValidator();
 
         if(exchange.getRequestMethod().equals("POST")){
-            String json = getJsonRequest(exchange);
-            if(schemaValidator.schemaValidation(json, this.schema)){
+            JSONObject json = getJsonRequest(exchange);
+            if(schemaValidator.schemaValidation(json.toString(), this.schema)){
                 final int port = exchange.getHttpContext().getServer().getAddress().getPort();
                 response = "{\"id\":\"0\", \"url\":\"http://localhost:" + port +
                     "\", \"message\":\"Response from Server\"}";
@@ -49,6 +52,8 @@ public class PostHandler implements HttpHandler  {
             try (OutputStream os = exchange.getResponseBody()) {
                 os.write(response.getBytes());}
 
+            String adversaryURL = json.getString("url");
+            this.game.fire(adversaryURL);
         }
     }
 }

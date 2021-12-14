@@ -8,16 +8,18 @@ import java.util.concurrent.Executors;
 
 public class Server {
     private final int port;
+    private final Game game;
 
-    public Server(int port){
+    public Server(int port, Game game){
         this.port = port;
+        this.game = game;
     }
 
     public void start(){
         try {
             HttpServer server = HttpServer.create(new InetSocketAddress(this.port), 0);
             server.createContext("/ping", new CallHandler());
-            server.createContext("/api/game/start", new PostHandler());
+            server.createContext("/api/game/start", new PostHandler(this.game));
             server.createContext("/api/game/fire", new FireHandler());
             server.setExecutor(Executors.newFixedThreadPool(1));
             server.start();

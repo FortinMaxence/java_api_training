@@ -9,8 +9,9 @@ public class Launcher {
             return;
         }
         final int port = Integer.parseInt(args[0]);
+        Game game = new Game();
 
-        Server server = new Server(port);
+        Server server = new Server(port, game);
         server.start();
 
         if (args.length > 1){
@@ -21,8 +22,8 @@ public class Launcher {
             }
             PostRequest postRequest = new PostRequest(port);
             postRequest.sendPostRequest(args[1]);
-            FireHandler fire = new FireHandler();
-            fire.sendFireRequest(args[1], "F2");
+            //FireHandler fire = new FireHandler();
+            //fire.sendFireRequest(args[1], "F2");
         }
     }
 }
