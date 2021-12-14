@@ -12,6 +12,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 public class PostHandler implements HttpHandler  {
 
@@ -47,13 +51,14 @@ public class PostHandler implements HttpHandler  {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         final String response;
+
         if(exchange.getRequestMethod().equals("POST")){
             String json = getJsonRequest(exchange);
             if(schemaValidation(json)){
                 final int port = exchange.getHttpContext().getServer().getAddress().getPort();
                 final String message = "Response from server.";
-                response = "{\"id\":\"1\"" + "\", \"url\":\"http://localhost:" + port +
-                    "\", \"message\":\"" + message + "\"}";
+                response = "{\"id\":\"0\", \"url\":\"http://localhost:" + port +
+                    "\", \"message\":\"Response from Server\"}";
 
                 exchange.sendResponseHeaders(202, response.length());
             }
