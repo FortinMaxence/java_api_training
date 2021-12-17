@@ -11,6 +11,10 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class FireHandler implements HttpHandler {
+    private final Game game;
+    public FireHandler(Game game){
+        this.game = game;
+    }
     public final String schema = "{\"$schema\":\"http://json-schema.org/schema#\",\"type\":\"object\"," +
         "\"properties\":{\"consequence\":{\"type\":\"string\",\"enum\":[\"miss\",\"hit\",\"sunk\"]}," +
         "\"shipLeft\":{\"type\":\"boolean\"}},\"required\":[\"consequence\",\"shipLeft\"]}";
@@ -58,6 +62,8 @@ public class FireHandler implements HttpHandler {
             String consequence = "miss";
             boolean shipLeft = true;
             sendFireResponse(exchange, consequence, shipLeft);
+
+            sendFireRequest(this.game.player.getAdversaryURL(), "F3");
         }
     }
 }

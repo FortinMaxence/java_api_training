@@ -9,7 +9,9 @@ public class Launcher {
             return;
         }
         final int port = Integer.parseInt(args[0]);
-        Game game = new Game();
+        Player player = new Player();
+        Game game = new Game(player);
+        game.initGame();
 
         Server server = new Server(port, game);
         server.start();
@@ -20,6 +22,7 @@ public class Launcher {
                 System.out.println("Adversary's URL " + args[1] + " isn't valid !");
                 return;
             }
+            game.player.setAdversaryURL(args[1]);
             PostRequest postRequest = new PostRequest(port);
             postRequest.sendPostRequest(args[1]);
             //FireHandler fire = new FireHandler();

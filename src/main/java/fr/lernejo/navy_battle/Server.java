@@ -20,7 +20,7 @@ public class Server {
             HttpServer server = HttpServer.create(new InetSocketAddress(this.port), 0);
             server.createContext("/ping", new CallHandler());
             server.createContext("/api/game/start", new PostHandler(this.game));
-            server.createContext("/api/game/fire", new FireHandler());
+            server.createContext("/api/game/fire", new FireHandler(this.game));
             server.setExecutor(Executors.newFixedThreadPool(1));
             server.start();
             System.out.println("HTTP server started on port " + this.port + "...");
