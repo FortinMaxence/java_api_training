@@ -9,6 +9,7 @@ import java.util.concurrent.Executors;
 public class Server {
     private final int port;
     private final Game game;
+    public HttpServer server;
 
     public Server(int port, Game game){
         this.port = port;
@@ -17,16 +18,20 @@ public class Server {
 
     public void start(){
         try {
-            HttpServer server = HttpServer.create(new InetSocketAddress(this.port), 0);
+            this.server = HttpServer.create(new InetSocketAddress(this.port), 0);
             server.createContext("/ping", new CallHandler());
             server.createContext("/api/game/start", new PostHandler(this.game));
             server.createContext("/api/game/fire", new FireHandler(this.game));
             server.setExecutor(Executors.newFixedThreadPool(1));
             server.start();
-            System.out.println("HTTP server started on port " + this.port + "...");
+            System.out.print("HTTP server started on port " + this.port + "...\n");
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void stop() throws IOException {
+        this.server.stop(1);
     }
 }

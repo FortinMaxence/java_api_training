@@ -72,7 +72,7 @@ public class FireHandler implements HttpHandler {
 
             try {
                 String cell = this.game.askForCell();
-                String response = sendFireRequest(this.game.player.getAdversaryURL(), cell);
+                String response = sendFireRequest(this.game.player.adversaryURL, cell);
                 applyResponse(response, cell);
             }
             catch (InterruptedException e) {e.printStackTrace();}

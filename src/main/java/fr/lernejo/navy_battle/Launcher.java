@@ -22,7 +22,7 @@ public class Launcher {
                 System.out.println("Adversary's URL " + args[1] + " isn't valid !");
                 return;
             }
-            game.player.setAdversaryURL(args[1]);
+            game.player.adversaryURL = args[1];
             PostRequest postRequest = new PostRequest(port);
             postRequest.sendPostRequest(args[1]);
         }
