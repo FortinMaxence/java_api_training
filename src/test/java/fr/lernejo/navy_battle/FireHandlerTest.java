@@ -1,13 +1,18 @@
 package fr.lernejo.navy_battle;
 
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpServer;
 import org.assertj.core.api.Assertions;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.concurrent.Executors;
 
 public class FireHandlerTest {
     private final Player player = new Player();
@@ -46,13 +51,23 @@ public class FireHandlerTest {
     }
 
     @Test
-    void getParams(){
-
-    }
-
-    @Test
     void applyResponse(){
+        String consequence = "miss";
+        boolean shipLeft = true;
+        JSONObject JSONresponse = new JSONObject("{\"consequence\":\"" + consequence + "\", \"shipLeft\":" + shipLeft + "}");
+        Assertions.assertThat(JSONresponse.toString())
+            .as("Complete JSON response Fire")
+            .isEqualTo("{\"consequence\":\"" + consequence + "\",\"shipLeft\":" + shipLeft + "}");
 
+        String consequenceResponse = JSONresponse.getString("consequence");
+        boolean shipLeftResponse = JSONresponse.getBoolean("shipLeft");
+        Assertions.assertThat(consequenceResponse)
+            .as("Consequence JSON response Fire")
+            .isEqualTo("miss");
+
+        Assertions.assertThat(shipLeftResponse)
+            .as("shipLeft JSON response Fire")
+            .isEqualTo(true);
     }
 
     @Test

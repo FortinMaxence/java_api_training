@@ -20,14 +20,6 @@ public class FireHandler implements HttpHandler {
         "\"properties\":{\"consequence\":{\"type\":\"string\",\"enum\":[\"miss\",\"hit\",\"sunk\"]}," +
         "\"shipLeft\":{\"type\":\"boolean\"}},\"required\":[\"consequence\",\"shipLeft\"]}";
 
-    public String getParams(HttpExchange httpExchange) {
-        return httpExchange.
-            getRequestURI()
-            .toString()
-            .split("\\?")[1]
-            .split("=")[1];
-    }
-
     public String sendFireRequest(String adversaryURL, String cell) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest fireRequest = HttpRequest.newBuilder()
@@ -65,7 +57,7 @@ public class FireHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         if(exchange.getRequestMethod().equals("GET")){
-            String cellTargeted = getParams(exchange);
+            String cellTargeted = exchange.getRequestURI().toString().split("\\?")[1].split("=")[1];;
             String consequence = this.game.consequenceFire(cellTargeted);
             boolean shipLeft = this.game.isShipLeft();
             sendFireResponse(exchange, consequence, shipLeft);

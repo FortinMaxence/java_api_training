@@ -62,4 +62,9 @@ public class PlayerTest {
             .isEqualTo(1);
     }
 
+    @Test
+    void chooseBoatDirection_horizontal(){
+        int direction = 0;
+    }
+
 }
