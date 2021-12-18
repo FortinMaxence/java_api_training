@@ -30,21 +30,16 @@ public class Game {
             for (int j = 0; j < 10; j++) System.out.print(" " + this.player.sea[i][j]);
             System.out.print("  ");
             for (int j = 0; j < 10; j++) System.out.print(" " + this.player.enemySea[i][j]);
-            System.out.println();
+            System.out.print("\n");
         }
     }
 
-    public String askForCell(){
-        Scanner sc = new Scanner(System.in);
-        String cell = "";
-        System.out.println("Enter a cell to target:");
-        while(!cell.matches("^[A-J]{1}([1-9]|10)$")){
-            cell = sc.nextLine();
-            if(!cell.matches("^[A-J]{1}([1-9]|10)$")){
-                System.out.println("Enter an existing cell!");
-            }
+    public boolean checkCell(String cell){
+        if(!cell.matches("^[A-J]{1}([1-9]|10)$")){
+            System.out.println("Enter an existing cell!");
+            return false;
         }
-        return cell;
+        return true;
     }
 
     public String consequenceFire(String cellTargeted){

@@ -9,6 +9,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Scanner;
 
 public class FireHandler implements HttpHandler {
     private final Game game;
@@ -71,7 +72,13 @@ public class FireHandler implements HttpHandler {
             if(!shipLeft){System.out.println("YOU LOST!"); System.exit(0);}
 
             try {
-                String cell = this.game.askForCell();
+                Scanner sc = new Scanner(System.in);
+                String cell = "";
+                System.out.println("Enter a cell to target:");
+                do{
+                    cell = sc.nextLine();
+                }while(!this.game.checkCell(cell));
+
                 String response = sendFireRequest(this.game.player.adversaryURL, cell);
                 applyResponse(response, cell);
             }

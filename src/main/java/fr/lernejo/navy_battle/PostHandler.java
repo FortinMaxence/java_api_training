@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.Scanner;
 
 public class PostHandler implements HttpHandler  {
     private final Game game;
@@ -55,7 +56,12 @@ public class PostHandler implements HttpHandler  {
 
             System.out.println("The game starts!");
             this.game.player.adversaryURL = adversaryURL;
-            String cell = this.game.askForCell();
+            Scanner sc = new Scanner(System.in);
+            String cell = "";
+            System.out.println("Enter a cell to target:");
+            do{
+                cell = sc.nextLine();
+            }while(!this.game.checkCell(cell));
 
             FireHandler fire = new FireHandler(this.game);
             try {
