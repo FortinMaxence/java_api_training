@@ -3,6 +3,10 @@ package fr.lernejo.navy_battle;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+
 public class GameTest {
     private final Player player = new Player();
     private final Game game = new Game(this.player);
@@ -109,5 +113,15 @@ public class GameTest {
         Assertions.assertThat(this.game.player.enemySea[0][0])
             .as("Update Boards H for Sunk")
             .isEqualTo("H");
+    }
+
+    @Test
+    void displayBoards() throws IOException {
+
+    }
+
+    @Test
+    void initGame(){
+
     }
 }
