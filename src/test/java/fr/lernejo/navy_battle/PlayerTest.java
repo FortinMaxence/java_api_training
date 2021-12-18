@@ -3,10 +3,6 @@ package fr.lernejo.navy_battle;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
 
 public class PlayerTest {
     private final Player player = new Player();
