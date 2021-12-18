@@ -2,17 +2,12 @@ package fr.lernejo.navy_battle;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import org.everit.json.schema.Schema;
-import org.everit.json.schema.ValidationException;
-import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.util.Scanner;
 
 public class PostHandler implements HttpHandler  {
     private final Game game;
@@ -60,19 +55,15 @@ public class PostHandler implements HttpHandler  {
 
             System.out.println("The game starts!");
             this.game.player.setAdversaryURL(adversaryURL);
-
-            Scanner sc = new Scanner(System.in);
-            String cell = "";
-            System.out.println("Enter a cell to target:");
-            while(!cell.matches("^[A-J]{1}([1-9]|10)$")){
-                cell = sc.nextLine();
-                if(!cell.matches("^[A-J]{1}([1-9]|10)$")){
-                    System.out.println("Enter an existing cell!");
-                }
-            }
+            String cell = this.game.askForCell();
 
             FireHandler fire = new FireHandler(this.game);
-            fire.sendFireRequest(adversaryURL, cell);
+            try {
+                String response = fire.sendFireRequest(adversaryURL, cell);
+                fire.applyResponse(response, cell);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -1,12 +1,9 @@
 package fr.lernejo.navy_battle;
 
-import java.util.List;
-import java.util.Map;
-
 public class Boats {
-    private final int size;
-    private final int[] xPositions;
-    private final int[] yPositions;
+    public final int size;
+    public final int[] xPositions;
+    public final int[] yPositions;
 
     public Boats(int size, int[] xPositions, int[] yPositions){
         this.size = size;
@@ -20,5 +17,13 @@ public class Boats {
         typeBoats(int size){
             this.size = size;
         }
+    }
+
+    public boolean isSunk(){
+        for(int i=0; i<this.size; i++){
+            if(this.xPositions[i] >= 0 || this.yPositions[i] >= 0)
+                return false;
+        }
+        return true;
     }
 }

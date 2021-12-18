@@ -10,16 +10,12 @@ public class Player {
 
     public void initSeas(){
         for(int i=0; i<10; i++){
-            for(int j=0; j<10; j++){
-                this.sea[i][j] = 0;
-                this.enemySea[i][j] = "o";
-            }
+            for(int j=0; j<10; j++){this.sea[i][j] = 0; this.enemySea[i][j] = "o";}
         }
     }
 
     public boolean validCoordinates(int boatSize, int direction, int xPos, int yPos){
         if(!((yPos<=9 && yPos>=0) && (xPos<=9 && xPos>=0))){System.out.println("You can't place the boat here!"); return false;}
-
         for(int i=0; i<boatSize; i++) {
             if (direction == 0)
                 if (this.sea[xPos][yPos+i] != 0 || (yPos - 1) + boatSize > 9) {
@@ -68,12 +64,10 @@ public class Player {
     public void setBoats(Boats.typeBoats typeBoat, int direction, int xPos, int yPos){
         int[] x = new int[typeBoat.size]; int[] y = new int[typeBoat.size];
         for(int i = 0; i<typeBoat.size; i++){
-            if(direction == 0){
-                x[i] = (xPos); y[i] = (yPos+i);
+            if(direction == 0){x[i] = (xPos); y[i] = (yPos+i);
                 this.sea[xPos][yPos+i] = typeBoat.size;
             }
-            if(direction == 1){
-                x[i] = xPos+i; y[i] = yPos;
+            if(direction == 1){x[i] = xPos+i; y[i] = yPos;
                 this.sea[xPos+i][yPos] = typeBoat.size;
             }
         }
@@ -87,5 +81,4 @@ public class Player {
     public String getAdversaryURL(){
         return this.adversaryURL;
     }
-
 }

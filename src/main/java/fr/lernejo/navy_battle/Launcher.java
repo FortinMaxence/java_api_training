@@ -25,8 +25,6 @@ public class Launcher {
             game.player.setAdversaryURL(args[1]);
             PostRequest postRequest = new PostRequest(port);
             postRequest.sendPostRequest(args[1]);
-            //FireHandler fire = new FireHandler();
-            //fire.sendFireRequest(args[1], "F2");
         }
     }
 }
