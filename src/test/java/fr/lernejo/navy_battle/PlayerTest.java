@@ -9,7 +9,7 @@ public class PlayerTest {
     private final Game game = new Game(this.player);
 
     @Test
-    void initSeas(){
+    void initSeas_ok(){
         this.player.initSeas();
         for(int i=0; i<10; i++){
             for(int j=0; j<10; j++){
@@ -20,7 +20,7 @@ public class PlayerTest {
     }
 
     @Test
-    void validCoordinatesTrue(){
+    void validCoordinates_true(){
         this.player.initSeas();
         Assertions.assertThat(this.player.validCoordinates(5, 0, 1, 1))
             .as("Coordinates are valid to place boat")
@@ -28,7 +28,7 @@ public class PlayerTest {
     }
 
     @Test
-    void validCoordinatesFalseBorder(){
+    void validCoordinates_false_border(){
         this.player.initSeas();
         Assertions.assertThat(this.player.validCoordinates(5, 0, 1, 8))
             .as("Boat hits the limit of board")
@@ -36,7 +36,7 @@ public class PlayerTest {
     }
 
     @Test
-    void validCoordinatesFalseAlreadyBoat(){
+    void validCoordinates_false_already_boat(){
         this.player.initSeas();
         this.player.setBoats(Boats.typeBoats.porteAvions, 0, 1, 1);
         Assertions.assertThat(this.player.validCoordinates(5, 0, 1, 1))
@@ -45,7 +45,7 @@ public class PlayerTest {
     }
 
     @Test
-    void setBoats(){
+    void setBoats_ok(){
         this.player.initSeas();
         this.player.setBoats(Boats.typeBoats.porteAvions, 0, 1, 1);
         Assertions.assertThat(this.player.boats.toArray().length)

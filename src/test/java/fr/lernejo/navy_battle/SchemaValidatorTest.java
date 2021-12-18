@@ -19,20 +19,20 @@ public class SchemaValidatorTest {
 
 
     @Test
-    void schemaValidatorPostTrue(){
+    void schemaValidator_post_true(){
         Assertions.assertThat(this.schemavalidator.schemaValidation("{\"id\":\"0\", \"url\":\"http://localhost:" + this.port +
             "\", \"message\":\"this is a message\"}", this.jsonSchemaPost))
             .as("schemaValidation true for POST").isEqualTo(true);
     }
 
     @Test
-    void schemaValidatorPostFalse(){
+    void schemaValidator_post_false(){
         Assertions.assertThat(this.schemavalidator.schemaValidation("{}", this.jsonSchemaPost))
             .as("schemaValidation false for POST").isEqualTo(false);
     }
 
     @Test
-    void schemaValidatorFireTrue(){
+    void schemaValidator_fire_true(){
         for (String s : this.consequence) {
             for (boolean b : this.shipLeft) {
                 Assertions.assertThat(this.schemavalidator.schemaValidation("{\"consequence\":\"" + s + "\", \"shipLeft\":" + b + "}", this.jsonSchemaFire))
@@ -42,7 +42,7 @@ public class SchemaValidatorTest {
     }
 
     @Test
-    void schemaValidatorFireFalse(){
+    void schemaValidator_fire_false(){
         Assertions.assertThat(this.schemavalidator.schemaValidation("{}", this.jsonSchemaFire))
             .as("schemaValidation false for Fire").isEqualTo(false);
     }

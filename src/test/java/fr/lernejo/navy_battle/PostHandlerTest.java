@@ -16,7 +16,7 @@ public class PostHandlerTest {
     private final HttpClient client = HttpClient.newHttpClient();
 
     @Test
-    void send202() throws IOException, InterruptedException {
+    void sendPOSTResponse_send202() throws IOException, InterruptedException {
         server.start();
         HttpRequest postRequest = HttpRequest.newBuilder()
             .uri(URI.create("http://localhost:9876/api/game/start"))
@@ -32,7 +32,7 @@ public class PostHandlerTest {
     }
 
     @Test
-    void send400() throws IOException, InterruptedException {
+    void sendPOSTResponse_send400() throws IOException, InterruptedException {
         server.start();
         HttpRequest postRequest = HttpRequest.newBuilder()
             .uri(URI.create("http://localhost:9876/api/game/start"))

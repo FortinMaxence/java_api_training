@@ -8,21 +8,21 @@ public class GameTest {
     private final Game game = new Game(this.player);
 
     @Test
-    void askForCellGood(){
+    void checkCell_good(){
         Assertions.assertThat(this.game.checkCell("A1"))
             .as("Test right cell")
             .isEqualTo(true);
     }
 
     @Test
-    void askForCellWrong(){
+    void checkCell_wrong(){
         Assertions.assertThat(this.game.checkCell("Z12"))
             .as("Test wrong cell")
             .isEqualTo(false);
     }
 
     @Test
-    void consequenceFireMiss(){
+    void consequenceFire_miss(){
         this.player.initSeas();
         Assertions.assertThat(this.game.consequenceFire("A1"))
             .as("Consequence Fire Miss")
@@ -30,7 +30,7 @@ public class GameTest {
     }
 
     @Test
-    void consequenceFireHit(){
+    void consequenceFire_hit(){
         this.player.initSeas();
         this.player.sea[0][0] = 2;
         this.player.sea[0][1] = 2;
@@ -50,7 +50,7 @@ public class GameTest {
     }
 
     @Test
-    void consequenceFireSunk(){
+    void consequenceFire_sunk(){
         this.player.initSeas();
         this.player.sea[0][0] = 1;
         this.player.boats.add(new Boats(1, new int[]{0}, new int[]{0}));
@@ -69,7 +69,7 @@ public class GameTest {
     }
 
     @Test
-    void isShipLeftTrue(){
+    void isShipLeft_true(){
         this.player.initSeas();
         this.player.boats.add(new Boats(1, new int[]{0}, new int[]{0}));
         Assertions.assertThat(this.game.isShipLeft())
@@ -78,14 +78,14 @@ public class GameTest {
     }
 
     @Test
-    void isShipLeftFalse(){
+    void isShipLeft_false(){
         Assertions.assertThat(this.game.isShipLeft())
             .as("Test shipLeft False")
             .isEqualTo(false);
     }
 
     @Test
-    void updateBoardMiss(){
+    void updateBoards_miss(){
         this.player.initSeas();
         this.game.updateBoards("miss", "A1");
         Assertions.assertThat(this.game.player.enemySea[0][0])
@@ -94,7 +94,7 @@ public class GameTest {
     }
 
     @Test
-    void updateBoardHit(){
+    void updateBoards_hit(){
         this.player.initSeas();
         this.game.updateBoards("hit", "A1");
         Assertions.assertThat(this.game.player.enemySea[0][0])
@@ -103,7 +103,7 @@ public class GameTest {
     }
 
     @Test
-    void updateBoardSunk(){
+    void updateBoards_sunk(){
         this.player.initSeas();
         this.game.updateBoards("sunk", "A1");
         Assertions.assertThat(this.game.player.enemySea[0][0])
