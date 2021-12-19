@@ -61,7 +61,7 @@ public class PostHandler implements HttpHandler  {
             System.out.println("Enter a cell to target:");
             do{
                 cell = sc.nextLine();
-            }while(!this.game.checkCell(cell));
+            }while(!this.game.player.checkCell(cell));
 
             FireHandler fire = new FireHandler(this.game);
             try {

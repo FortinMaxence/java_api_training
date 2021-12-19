@@ -12,9 +12,9 @@ public class Game {
     public void initGame() throws IOException {
         this.player.initSeas();
         for(Boats.typeBoats typeBoat : Boats.typeBoats.values()){
-            this.player.placeBoats(typeBoat);
-            displayBoards();
-        }
+                this.player.placeBoats(typeBoat);
+                displayBoards();
+            }
     }
 
     public void displayBoards() throws IOException {
@@ -32,14 +32,6 @@ public class Game {
             for (int j = 0; j < 10; j++) System.out.print(" " + this.player.enemySea[i][j]);
             System.out.print("\n");
         }
-    }
-
-    public boolean checkCell(String cell){
-        if(!cell.matches("^[A-J]{1}([1-9]|10)$")){
-            System.out.println("Enter an existing cell!");
-            return false;
-        }
-        return true;
     }
 
     public String consequenceFire(String cellTargeted){

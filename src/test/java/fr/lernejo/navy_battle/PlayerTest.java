@@ -3,6 +3,14 @@ package fr.lernejo.navy_battle;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Scanner;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class PlayerTest {
     private final Player player = new Player();
@@ -63,8 +71,17 @@ public class PlayerTest {
     }
 
     @Test
-    void chooseBoatDirection_horizontal(){
-        int direction = 0;
+    void checkCell_good(){
+        Assertions.assertThat(this.player.checkCell("A1"))
+            .as("Test right cell")
+            .isEqualTo(true);
+    }
+
+    @Test
+    void checkCell_wrong(){
+        Assertions.assertThat(this.player.checkCell("Z12"))
+            .as("Test wrong cell")
+            .isEqualTo(false);
     }
 
 }

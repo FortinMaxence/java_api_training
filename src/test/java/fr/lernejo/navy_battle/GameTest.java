@@ -12,20 +12,6 @@ public class GameTest {
     private final Game game = new Game(this.player);
 
     @Test
-    void checkCell_good(){
-        Assertions.assertThat(this.game.checkCell("A1"))
-            .as("Test right cell")
-            .isEqualTo(true);
-    }
-
-    @Test
-    void checkCell_wrong(){
-        Assertions.assertThat(this.game.checkCell("Z12"))
-            .as("Test wrong cell")
-            .isEqualTo(false);
-    }
-
-    @Test
     void consequenceFire_miss(){
         this.player.initSeas();
         Assertions.assertThat(this.game.consequenceFire("A1"))
@@ -116,12 +102,78 @@ public class GameTest {
     }
 
     @Test
-    void displayBoards() throws IOException {
+    void displayBoards_init() throws IOException {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        this.player.initSeas();
+        this.game.displayBoards();
 
+        String expected ="   A B C D E F G H I J   A B C D E F G H I J1  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "2  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o3  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "4  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o5  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "6  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o7  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "8  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o9  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "10 0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o";
+        Assertions.assertThat(outContent.toString().replaceAll("\n", "").replaceAll("\r", "")).as("Boards")
+            .isEqualTo(expected);
     }
 
     @Test
-    void initGame(){
+    void displayBoards_miss() throws IOException {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        this.player.initSeas();
+        this.game.updateBoards("miss", "A1");
+        this.game.displayBoards();
+
+        String expected ="   A B C D E F G H I J   A B C D E F G H I J1  0 0 0 0 0 0 0 0 0 0   x o o o o o o o o o" +
+            "2  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o3  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "4  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o5  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "6  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o7  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "8  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o9  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "10 0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o";
+        Assertions.assertThat(outContent.toString().replaceAll("\n", "").replaceAll("\r", "")).as("Boards miss")
+            .isEqualTo(expected);
+    }
+
+    @Test
+    void displayBoards_hit() throws IOException {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        this.player.initSeas();
+        this.game.updateBoards("hit", "A1");
+        this.game.displayBoards();
+
+        String expected ="   A B C D E F G H I J   A B C D E F G H I J1  0 0 0 0 0 0 0 0 0 0   H o o o o o o o o o" +
+            "2  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o3  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "4  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o5  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "6  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o7  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "8  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o9  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "10 0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o";
+        Assertions.assertThat(outContent.toString().replaceAll("\n", "").replaceAll("\r", "")).as("Boards hit")
+            .isEqualTo(expected);
+    }
+
+    @Test
+    void displayBoards_sunk() throws IOException {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        this.player.initSeas();
+        this.game.updateBoards("sunk", "A1");
+        this.game.displayBoards();
+
+        String expected ="   A B C D E F G H I J   A B C D E F G H I J1  0 0 0 0 0 0 0 0 0 0   H o o o o o o o o o" +
+            "2  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o3  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "4  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o5  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "6  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o7  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "8  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o9  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "10 0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o";
+        Assertions.assertThat(outContent.toString().replaceAll("\n", "").replaceAll("\r", "")).as("Boards sunk")
+            .isEqualTo(expected);
+    }
+
+    @Test
+    void initGame() throws IOException {
 
     }
 }

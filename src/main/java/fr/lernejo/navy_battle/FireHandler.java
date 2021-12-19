@@ -69,7 +69,7 @@ public class FireHandler implements HttpHandler {
                 System.out.println("Enter a cell to target:");
                 do{
                     cell = sc.nextLine();
-                }while(!this.game.checkCell(cell));
+                }while(!this.game.player.checkCell(cell));
 
                 String response = sendFireRequest(this.game.player.adversaryURL, cell);
                 applyResponse(response, cell);

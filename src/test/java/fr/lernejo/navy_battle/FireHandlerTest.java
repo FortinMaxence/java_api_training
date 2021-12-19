@@ -6,7 +6,9 @@ import org.assertj.core.api.Assertions;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -51,7 +53,7 @@ public class FireHandlerTest {
     }
 
     @Test
-    void applyResponse(){
+    void applyResponse_miss() throws IOException {
         String consequence = "miss";
         boolean shipLeft = true;
         JSONObject JSONresponse = new JSONObject("{\"consequence\":\"" + consequence + "\", \"shipLeft\":" + shipLeft + "}");
@@ -63,11 +65,96 @@ public class FireHandlerTest {
         boolean shipLeftResponse = JSONresponse.getBoolean("shipLeft");
         Assertions.assertThat(consequenceResponse)
             .as("Consequence JSON response Fire")
-            .isEqualTo("miss");
+            .isEqualTo(consequence);
 
         Assertions.assertThat(shipLeftResponse)
             .as("shipLeft JSON response Fire")
             .isEqualTo(true);
+
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        FireHandler fire = new FireHandler(this.game);
+        this.player.initSeas();
+        fire.applyResponse(JSONresponse.toString(), "A1");
+
+        String expected = JSONresponse.toString()+"   A B C D E F G H I J   A B C D E F G H I J1  0 0 0 0 0 0 0 0 0 0   x o o o o o o o o o" +
+            "2  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o3  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "4  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o5  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "6  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o7  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "8  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o9  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "10 0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o";
+        Assertions.assertThat(outContent.toString().replaceAll("\n", "").replaceAll("\r", "")).as("applyResponse miss")
+            .isEqualTo(expected);
+    }
+
+    @Test
+    void applyResponse_hit() throws IOException {
+        String consequence = "hit";
+        boolean shipLeft = true;
+        JSONObject JSONresponse = new JSONObject("{\"consequence\":\"" + consequence + "\", \"shipLeft\":" + shipLeft + "}");
+        Assertions.assertThat(JSONresponse.toString())
+            .as("Complete JSON response Fire")
+            .isEqualTo("{\"consequence\":\"" + consequence + "\",\"shipLeft\":" + shipLeft + "}");
+
+        String consequenceResponse = JSONresponse.getString("consequence");
+        boolean shipLeftResponse = JSONresponse.getBoolean("shipLeft");
+        Assertions.assertThat(consequenceResponse)
+            .as("Consequence JSON response Fire")
+            .isEqualTo(consequence);
+
+        Assertions.assertThat(shipLeftResponse)
+            .as("shipLeft JSON response Fire")
+            .isEqualTo(true);
+
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        FireHandler fire = new FireHandler(this.game);
+        this.player.initSeas();
+        fire.applyResponse(JSONresponse.toString(), "A1");
+
+        String expected =JSONresponse.toString()+"   A B C D E F G H I J   A B C D E F G H I J1  0 0 0 0 0 0 0 0 0 0   H o o o o o o o o o" +
+            "2  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o3  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "4  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o5  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "6  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o7  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "8  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o9  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "10 0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o";
+        Assertions.assertThat(outContent.toString().replaceAll("\n", "").replaceAll("\r", "")).as("applyResponse hit")
+            .isEqualTo(expected);
+    }
+
+    @Test
+    void applyResponse_sunk() throws IOException {
+        String consequence = "sunk";
+        boolean shipLeft = true;
+        JSONObject JSONresponse = new JSONObject("{\"consequence\":\"" + consequence + "\", \"shipLeft\":" + shipLeft + "}");
+        Assertions.assertThat(JSONresponse.toString())
+            .as("Complete JSON response Fire")
+            .isEqualTo("{\"consequence\":\"" + consequence + "\",\"shipLeft\":" + shipLeft + "}");
+
+        String consequenceResponse = JSONresponse.getString("consequence");
+        boolean shipLeftResponse = JSONresponse.getBoolean("shipLeft");
+        Assertions.assertThat(consequenceResponse)
+            .as("Consequence JSON response Fire")
+            .isEqualTo(consequence);
+
+        Assertions.assertThat(shipLeftResponse)
+            .as("shipLeft JSON response Fire")
+            .isEqualTo(true);
+
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        FireHandler fire = new FireHandler(this.game);
+        this.player.initSeas();
+        fire.applyResponse(JSONresponse.toString(), "A1");
+
+        String expected = JSONresponse.toString()+"   A B C D E F G H I J   A B C D E F G H I J1  0 0 0 0 0 0 0 0 0 0   H o o o o o o o o o" +
+            "2  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o3  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "4  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o5  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "6  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o7  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "8  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o9  0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o" +
+            "10 0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o";
+        Assertions.assertThat(outContent.toString().replaceAll("\n", "").replaceAll("\r", "")).as("applyResponse sunk")
+            .isEqualTo(expected);
     }
 
     @Test

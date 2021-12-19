@@ -61,6 +61,13 @@ public class Player {
         setBoats(typeBoat, direction, xPos, yPos);
     }
 
+    public boolean checkCell(String cell){
+        if(!cell.matches("^[A-J]{1}([1-9]|10)$")){
+            return false;
+        }
+        return true;
+    }
+
     public void setBoats(Boats.typeBoats typeBoat, int direction, int xPos, int yPos){
         int[] x = new int[typeBoat.size]; int[] y = new int[typeBoat.size];
         for(int i = 0; i<typeBoat.size; i++){
