@@ -9,21 +9,19 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.concurrent.Executors;
 
 public class FireHandlerTest {
     private final Player player = new Player();
     private final Game game = new Game(this.player);
-    private final Server server = new Server(9876, this.game);
     private final HttpClient client = HttpClient.newHttpClient();
 
     @Test
     void sendFireRequest() throws IOException, InterruptedException {
+        HttpServer server = new Server().launch(9876, this.game);
         server.start();
         this.player.initSeas();
         this.player.boats.add(new Boats(1, new int[]{0}, new int[]{0}));
@@ -33,11 +31,12 @@ public class FireHandlerTest {
         Assertions.assertThat(fire.sendFireRequest("http://localhost:9876", "A1"))
             .as("Fire Request return response")
             .isEqualTo("{\"consequence\":\"" + consequence + "\", \"shipLeft\":" + shipLeft + "}");
-        server.stop();
+        server.stop(1);
     }
 
     @Test
     void sendFireResponse_send202() throws IOException, InterruptedException {
+        HttpServer server = new Server().launch(9876, this.game);
         server.start();
         this.player.initSeas();
         this.player.boats.add(new Boats(2, new int[]{0,0}, new int[]{0,1}));
@@ -49,7 +48,7 @@ public class FireHandlerTest {
         Assertions.assertThat(client.send(fireRequest, HttpResponse.BodyHandlers.ofString()).statusCode())
             .as("Response Post request /api/game/start 202")
             .isEqualTo(202);
-        server.stop();
+        server.stop(1);
     }
 
     @Test

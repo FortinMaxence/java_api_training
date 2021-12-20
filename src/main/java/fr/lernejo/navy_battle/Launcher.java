@@ -1,5 +1,6 @@
 package fr.lernejo.navy_battle;
 
+import com.sun.net.httpserver.HttpServer;
 import org.apache.commons.validator.routines.UrlValidator;
 
 public class Launcher {
@@ -13,7 +14,7 @@ public class Launcher {
         Game game = new Game(player);
         //game.initGame();
 
-        Server server = new Server(port, game);
+        HttpServer server = new Server().launch(port, game);
         server.start();
 
         if (args.length > 1){

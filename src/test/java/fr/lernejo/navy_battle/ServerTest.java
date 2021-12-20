@@ -1,5 +1,6 @@
 package fr.lernejo.navy_battle;
 
+import com.sun.net.httpserver.HttpServer;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -11,16 +12,16 @@ public class ServerTest {
     private final int port = 9876;
     private final Player player = new Player();
     private final Game game = new Game(this.player);
-    private final Server server = new Server(port, this.game);
 
     @Test
-    void start() throws IOException {
+    void launch() throws IOException {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
-        this.server.start();
+        HttpServer server = new Server().launch(this.port, this.game);
+        server.start();
 
         String stringExpected = "HTTP server started on port " + this.port + "...\n";
         Assertions.assertThat(outContent.toString()).as("server message starting").isEqualTo(stringExpected);
-        this.server.stop();
+        server.stop(1);
     }
 }
