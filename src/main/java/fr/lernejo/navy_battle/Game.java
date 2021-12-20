@@ -35,11 +35,8 @@ public class Game {
     }
 
     public String consequenceFire(String cellTargeted){
-        int xPos = Character.getNumericValue(cellTargeted.charAt(1))-1;
-        int yPos = (int)cellTargeted.charAt(0)-65;
-        if(this.player.sea[xPos][yPos] == 0)
-            return "miss";
-
+        int xPos = Integer.parseInt(cellTargeted.replaceAll("[A-Z]", "")) - 1; int yPos = (int)cellTargeted.charAt(0)-65;
+        if(this.player.sea[xPos][yPos] == 0) return "miss";
         if(this.player.sea[xPos][yPos] >= 1){
             Boats boatHitted;
             for(int i =0; i<this.player.boats.toArray().length; i++){
@@ -64,10 +61,12 @@ public class Game {
     }
 
     public void updateBoards(String consequence, String cell){
+        int yPos = ((int)cell.charAt(0))-65;
+        int xPos = Integer.parseInt(cell.replaceAll("[A-Z]", "")) - 1;
         if(consequence.equals("miss"))
-            this.player.enemySea[Character.getNumericValue(cell.charAt(1))-1][((int)cell.charAt(0))-65] = "x";
+            this.player.enemySea[xPos][yPos] = "x";
 
         if(consequence.equals("hit") || consequence.equals("sunk"))
-            this.player.enemySea[Character.getNumericValue(cell.charAt(1))-1][((int)cell.charAt(0))-65] = "H";
+            this.player.enemySea[xPos][yPos] = "H";
     }
 }

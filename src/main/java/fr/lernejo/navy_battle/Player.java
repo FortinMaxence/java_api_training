@@ -39,12 +39,24 @@ public class Player {
         return false;
     }
 
+    public String chooseCellToTarget(){
+        String cell; int xPos; int yPos;
+        System.out.println("Enter a cell to target:");
+        do{
+            xPos = new Random().nextInt(10);
+            yPos = new Random().nextInt(10);
+            cell = (char)(yPos+65) + "" + (xPos+1);
+            System.out.println(cell);
+        }while(!checkCell(xPos, yPos, cell));
+        return cell;
+    }
+
     public void placeBoats(Boats.typeBoats typeBoat){
         System.out.print("Boat : " + typeBoat + ", Size : " + typeBoat.size + "\n");
         System.out.println("Choose direction: horizontal(0) or vertical(1)");
         int direction = (int) Math.round(Math.random());
         System.out.println(direction);
-        int xPos; int yPos; String cell;
+        int xPos; int yPos;
         System.out.println("Choose a cell to place the head of your boat:");
         do{
             xPos = new Random().nextInt(10);

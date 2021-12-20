@@ -25,6 +25,8 @@ public class FireHandler implements HttpHandler {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest fireRequest = HttpRequest.newBuilder()
             .uri(URI.create(adversaryURL + "/api/game/fire?cell=" + cell))
+            .setHeader("Accept", "application/json")
+            .setHeader("Content-Type", "application/json")
             .build();
 
         HttpResponse<String> response = client.send(fireRequest, HttpResponse.BodyHandlers.ofString());
@@ -63,17 +65,8 @@ public class FireHandler implements HttpHandler {
             boolean shipLeft = this.game.isShipLeft();
             sendFireResponse(exchange, consequence, shipLeft);
             if(!shipLeft){System.out.println("YOU LOST!"); System.exit(0);}
-
             try {
-                String cell; int xPos; int yPos;
-                System.out.println("Enter a cell to target:");
-                do{
-                    xPos = new Random().nextInt(10);
-                    yPos = new Random().nextInt(10);
-                    cell = (char)(yPos+65) + "" + (xPos+1);
-                    System.out.println(cell);
-                }while(!this.game.player.checkCell(xPos, yPos, cell));
-
+                String cell = this.game.player.chooseCellToTarget();
                 String response = sendFireRequest(this.game.player.adversaryURL, cell);
                 applyResponse(response, cell);
             }

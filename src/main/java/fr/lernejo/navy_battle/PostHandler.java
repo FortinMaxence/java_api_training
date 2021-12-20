@@ -37,16 +37,11 @@ public class PostHandler implements HttpHandler  {
             final int port = exchange.getHttpContext().getServer().getAddress().getPort();
             response = "{\"id\":\"0\", \"url\":\"http://localhost:" + port +
                 "\", \"message\":\"Response from Server\"}";
-
             exchange.sendResponseHeaders(202, response.length());
         }
-        else{
-            response = "Bad request";
-            exchange.sendResponseHeaders(400, response.length());}
-
+        else{ response = "Bad request"; exchange.sendResponseHeaders(400, response.length());}
         try (OutputStream os = exchange.getResponseBody()) {
             os.write(response.getBytes());}
-
         return json.getString("url");
     }
 
@@ -54,18 +49,10 @@ public class PostHandler implements HttpHandler  {
     public void handle(HttpExchange exchange) throws IOException {
         if(exchange.getRequestMethod().equals("POST")){
             String adversaryURL = sendPOSTResponse(exchange);
-
             System.out.println("The game starts!");
             this.game.player.adversaryURL = adversaryURL;
-            String cell; int xPos; int yPos;
             System.out.println("Enter a cell to target:");
-            do{
-                xPos = new Random().nextInt(10);
-                yPos = new Random().nextInt(10);
-                cell = (char)(yPos+65) + "" + (xPos+1);
-                System.out.println(cell);
-            }while(!this.game.player.checkCell(xPos, yPos, cell));
-
+            String cell = this.game.player.chooseCellToTarget();
             FireHandler fire = new FireHandler(this.game);
             try {
                 String response = fire.sendFireRequest(adversaryURL, cell);
