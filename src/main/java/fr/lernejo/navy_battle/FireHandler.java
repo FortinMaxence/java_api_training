@@ -68,7 +68,7 @@ public class FireHandler implements HttpHandler {
             if(!shipLeft){System.out.println("YOU LOST!"); System.exit(0);}
             try {
                 String cell = this.game.player.chooseCellToTarget();
-                String response = sendFireRequest(this.game.player.adversaryURL, cell);
+                String response = sendFireRequest(this.game.player.adversaryURL[0], cell);
                 applyResponse(response, cell);
             }
             catch (InterruptedException e) {e.printStackTrace();}

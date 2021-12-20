@@ -50,7 +50,7 @@ public class PostHandler implements HttpHandler  {
         if(exchange.getRequestMethod().equals("POST")){
             String adversaryURL = sendPOSTResponse(exchange);
             System.out.println("The game starts!");
-            this.game.player.adversaryURL = adversaryURL;
+            this.game.player.adversaryURL[0] =  adversaryURL;
             System.out.println("Enter a cell to target:");
             String cell = this.game.player.chooseCellToTarget();
             FireHandler fire = new FireHandler(this.game);

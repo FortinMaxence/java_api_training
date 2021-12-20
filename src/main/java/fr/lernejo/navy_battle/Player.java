@@ -3,7 +3,7 @@ package fr.lernejo.navy_battle;
 import java.util.*;
 
 public class Player {
-    public String adversaryURL;
+    public final String[] adversaryURL = new String[1];
     public final int[][] sea = new int[10][10];
     public final String[][] enemySea = new String[10][10];
     public final List<Boats> boats = new ArrayList<>();
