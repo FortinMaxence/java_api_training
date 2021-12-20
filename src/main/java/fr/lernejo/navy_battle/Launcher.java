@@ -12,10 +12,11 @@ public class Launcher {
         final int port = Integer.parseInt(args[0]);
         Player player = new Player();
         Game game = new Game(player);
-        //game.initGame();
 
         HttpServer server = new Server().launch(port, game);
         server.start();
+
+        game.initGame();
 
         if (args.length > 1){
             UrlValidator urlValidator = new UrlValidator(UrlValidator.ALLOW_LOCAL_URLS);
@@ -24,8 +25,8 @@ public class Launcher {
                 return;
             }
             game.player.adversaryURL = args[1];
-            //PostRequest postRequest = new PostRequest(port);
-            //postRequest.sendPostRequest(args[1]);
+            PostRequest postRequest = new PostRequest(port);
+            postRequest.sendPostRequest(args[1]);
         }
     }
 }
