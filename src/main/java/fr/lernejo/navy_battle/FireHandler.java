@@ -37,7 +37,7 @@ public class FireHandler implements HttpHandler {
         String response = "{\"consequence\":\"" + consequence + "\", \"shipLeft\":" + shipLeft + "}";
         SchemaValidator schemaValidator = new SchemaValidator();
         if(schemaValidator.schemaValidation(response, this.schema)){
-            exchange.getResponseHeaders().add("Content-Type", "text/json");
+            exchange.getResponseHeaders().add("Content-Type", "application/json");
             exchange.sendResponseHeaders(202, response.length());
         }
         else{
