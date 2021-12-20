@@ -3,13 +3,9 @@ package fr.lernejo.navy_battle;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Scanner;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+;
 
 
 public class PlayerTest {
@@ -28,7 +24,7 @@ public class PlayerTest {
     }
 
     @Test
-    void validCoordinates_true(){
+    void validCoordinates_true_direction_0(){
         this.player.initSeas();
         Assertions.assertThat(this.player.validCoordinates(5, 0, 1, 1))
             .as("Coordinates are valid to place boat")
@@ -36,7 +32,7 @@ public class PlayerTest {
     }
 
     @Test
-    void validCoordinates_false_border(){
+    void validCoordinates_false_border_direction_0(){
         this.player.initSeas();
         Assertions.assertThat(this.player.validCoordinates(5, 0, 1, 8))
             .as("Boat hits the limit of board")
@@ -44,10 +40,35 @@ public class PlayerTest {
     }
 
     @Test
-    void validCoordinates_false_already_boat(){
+    void validCoordinates_false_already_boat_direction_0(){
         this.player.initSeas();
         this.player.setBoats(Boats.typeBoats.porteAvions, 0, 1, 1);
         Assertions.assertThat(this.player.validCoordinates(5, 0, 1, 1))
+            .as("Already boat here")
+            .isEqualTo(false);
+    }
+
+    @Test
+    void validCoordinates_true_direction_1(){
+        this.player.initSeas();
+        Assertions.assertThat(this.player.validCoordinates(5, 1, 1, 1))
+            .as("Coordinates are valid to place boat")
+            .isEqualTo(true);
+    }
+
+    @Test
+    void validCoordinates_false_border_direction_1(){
+        this.player.initSeas();
+        Assertions.assertThat(this.player.validCoordinates(5, 1, 8, 1))
+            .as("Boat hits the limit of board")
+            .isEqualTo(false);
+    }
+
+    @Test
+    void validCoordinates_false_already_boat_direction_1(){
+        this.player.initSeas();
+        this.player.setBoats(Boats.typeBoats.porteAvions, 1, 1, 1);
+        Assertions.assertThat(this.player.validCoordinates(5, 1, 1, 1))
             .as("Already boat here")
             .isEqualTo(false);
     }
@@ -68,6 +89,54 @@ public class PlayerTest {
         Assertions.assertThat(this.player.boats.get(0).yPositions[0])
             .as("Test boat yPos")
             .isEqualTo(1);
+    }
+
+    @Test
+    void checkCell_good(){
+        this.player.initSeas();
+        Assertions.assertThat(this.player.checkCell(0, 0, "A1"))
+            .as("checkCell good")
+            .isEqualTo(true);
+    }
+
+    @Test
+    void checkCell_wrong_already_fired_here(){
+        this.player.initSeas();
+        this.player.enemySea[0][0] = "x";
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        boolean result = this.player.checkCell(0, 0, "A1");
+
+        String stringExpected = "You can't fire here!";
+        Assertions.assertThat(outContent.toString().replaceAll("\n", "").replaceAll("\r", "")).as("checkCell wrong message").isEqualTo(stringExpected);
+        Assertions.assertThat(result).as("checkCell wrong").isEqualTo(false);
+    }
+
+    @Test
+    void checkCell_wrong_not_good_format(){
+        this.player.initSeas();
+        this.player.enemySea[0][0] = "x";
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        boolean result = this.player.checkCell(0, 0, "XX");
+
+        String stringExpected = "You can't fire here!";
+        Assertions.assertThat(outContent.toString().replaceAll("\n", "").replaceAll("\r", "")).as("checkCell wrong format").isEqualTo(stringExpected);
+        Assertions.assertThat(result).as("checkCell wrong").isEqualTo(false);
+    }
+
+    @Test
+    void placeBoats(){
+        this.player.initSeas();
+        this.player.placeBoats(Boats.typeBoats.porteAvions);
+        int count = 0;
+        for(int i=0; i<10; i++){
+            for(int j=0; j<10; j++){
+                if (this.player.sea[i][j] > 0)
+                    count++;
+            }
+        }
+        Assertions.assertThat(count).as("check Boat well placed").isEqualTo(5);
     }
 
 }

@@ -36,9 +36,10 @@ public class FireHandler implements HttpHandler {
     public void sendFireResponse(HttpExchange exchange, String consequence, boolean shipLeft) throws IOException {
         String response = "{\"consequence\":\"" + consequence + "\", \"shipLeft\":" + shipLeft + "}";
         SchemaValidator schemaValidator = new SchemaValidator();
-
-        if(schemaValidator.schemaValidation(response, this.schema))
+        if(schemaValidator.schemaValidation(response, this.schema)){
+            exchange.getResponseHeaders().add("Content-Type", "text/json");
             exchange.sendResponseHeaders(202, response.length());
+        }
         else{
             response = "Bad request";
             exchange.sendResponseHeaders(400, response.length());}

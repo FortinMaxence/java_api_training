@@ -46,7 +46,7 @@ public class FireHandlerTest {
             .build();
 
         Assertions.assertThat(client.send(fireRequest, HttpResponse.BodyHandlers.ofString()).statusCode())
-            .as("Response Post request /api/game/start 202")
+            .as("Response Fire request /api/game/fire 202")
             .isEqualTo(202);
         server.stop(1);
     }

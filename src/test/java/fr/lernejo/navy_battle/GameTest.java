@@ -102,7 +102,7 @@ public class GameTest {
     }
 
     @Test
-    void displayBoards_init() throws IOException {
+    void displayBoards_init(){
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         this.player.initSeas();
@@ -119,7 +119,7 @@ public class GameTest {
     }
 
     @Test
-    void displayBoards_miss() throws IOException {
+    void displayBoards_miss(){
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         this.player.initSeas();
@@ -137,7 +137,7 @@ public class GameTest {
     }
 
     @Test
-    void displayBoards_hit() throws IOException {
+    void displayBoards_hit(){
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         this.player.initSeas();
@@ -155,7 +155,7 @@ public class GameTest {
     }
 
     @Test
-    void displayBoards_sunk() throws IOException {
+    void displayBoards_sunk(){
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         this.player.initSeas();
@@ -170,10 +170,5 @@ public class GameTest {
             "10 0 0 0 0 0 0 0 0 0 0   o o o o o o o o o o";
         Assertions.assertThat(outContent.toString().replaceAll("\n", "").replaceAll("\r", "")).as("Boards sunk")
             .isEqualTo(expected);
-    }
-
-    @Test
-    void initGame() throws IOException {
-
     }
 }
