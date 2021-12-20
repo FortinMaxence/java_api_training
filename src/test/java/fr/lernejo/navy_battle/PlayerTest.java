@@ -70,18 +70,4 @@ public class PlayerTest {
             .isEqualTo(1);
     }
 
-    @Test
-    void checkCell_good(){
-        Assertions.assertThat(this.player.checkCell("A1"))
-            .as("Test right cell")
-            .isEqualTo(true);
-    }
-
-    @Test
-    void checkCell_wrong(){
-        Assertions.assertThat(this.player.checkCell("Z12"))
-            .as("Test wrong cell")
-            .isEqualTo(false);
-    }
-
 }

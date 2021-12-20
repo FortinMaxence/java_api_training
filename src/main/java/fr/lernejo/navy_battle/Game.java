@@ -17,7 +17,7 @@ public class Game {
             }
     }
 
-    public void displayBoards() throws IOException {
+    public void displayBoards(){
         StringBuilder builder = new StringBuilder();
         for(int x=0; x<2; x++){
             builder.append("  ");

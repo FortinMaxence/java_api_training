@@ -9,6 +9,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Random;
 import java.util.Scanner;
 
 public class FireHandler implements HttpHandler {
@@ -64,12 +65,14 @@ public class FireHandler implements HttpHandler {
             if(!shipLeft){System.out.println("YOU LOST!"); System.exit(0);}
 
             try {
-                Scanner sc = new Scanner(System.in);
-                String cell = "";
+                String cell; int xPos; int yPos;
                 System.out.println("Enter a cell to target:");
                 do{
-                    cell = sc.nextLine();
-                }while(!this.game.player.checkCell(cell));
+                    xPos = new Random().nextInt(10);
+                    yPos = new Random().nextInt(10);
+                    cell = (char)(yPos+65) + "" + (xPos+1);
+                    System.out.println(cell);
+                }while(!this.game.player.checkCell(xPos, yPos, cell));
 
                 String response = sendFireRequest(this.game.player.adversaryURL, cell);
                 applyResponse(response, cell);

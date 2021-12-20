@@ -31,41 +31,27 @@ public class Player {
         return true;
     }
 
-    public int chooseBoatDirection(){
-        Scanner sc = new Scanner(System.in);
-        int direction;
-        do{
-            System.out.println("Choose direction: horizontal(0) or vertical(1)");
-            while(!sc.hasNextInt()){System.out.println("Choose direction: horizontal(0) or vertical(1)"); sc.next();}
-            direction = sc.nextInt();
-        }while(direction > 1 || direction < 0 );
-        return direction;
+    public boolean checkCell(int xPos, int yPos, String cell){
+        if(this.enemySea[xPos][yPos].equals("o") && cell.matches("^[A-J]{1}([1-9]|10)$"))
+            return true;
+
+        System.out.println("You can't fire here!");
+        return false;
     }
 
     public void placeBoats(Boats.typeBoats typeBoat){
         System.out.print("Boat : " + typeBoat + ", Size : " + typeBoat.size + "\n");
-        Scanner sc = new Scanner(System.in);
-        int direction = chooseBoatDirection();
+        System.out.println("Choose direction: horizontal(0) or vertical(1)");
+        int direction = (int) Math.round(Math.random());
+        System.out.println(direction);
         int xPos; int yPos; String cell;
         System.out.println("Choose a cell to place the head of your boat:");
         do{
-            cell = "";
-            while(!cell.matches("^[A-J]{1}([1-9]|10)$")){
-                cell = sc.nextLine();
-                if(!cell.matches("^[A-J]{1}([1-9]|10)$"))
-                    System.out.println("Choose an existing cell!");
-            }
-            xPos = Character.getNumericValue(cell.charAt(1))-1;
-            yPos = (int)cell.charAt(0)-65;
+            xPos = new Random().nextInt(10);
+            yPos = new Random().nextInt(10);
+            System.out.println((char)(xPos+65) + "" + yPos);
         }while(!validCoordinates(typeBoat.size, direction, xPos, yPos));
         setBoats(typeBoat, direction, xPos, yPos);
-    }
-
-    public boolean checkCell(String cell){
-        if(!cell.matches("^[A-J]{1}([1-9]|10)$")){
-            return false;
-        }
-        return true;
     }
 
     public void setBoats(Boats.typeBoats typeBoat, int direction, int xPos, int yPos){

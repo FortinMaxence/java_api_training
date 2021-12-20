@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.Random;
 import java.util.Scanner;
 
 public class PostHandler implements HttpHandler  {
@@ -56,12 +57,14 @@ public class PostHandler implements HttpHandler  {
 
             System.out.println("The game starts!");
             this.game.player.adversaryURL = adversaryURL;
-            Scanner sc = new Scanner(System.in);
-            String cell = "";
+            String cell; int xPos; int yPos;
             System.out.println("Enter a cell to target:");
             do{
-                cell = sc.nextLine();
-            }while(!this.game.player.checkCell(cell));
+                xPos = new Random().nextInt(10);
+                yPos = new Random().nextInt(10);
+                cell = (char)(yPos+65) + "" + (xPos+1);
+                System.out.println(cell);
+            }while(!this.game.player.checkCell(xPos, yPos, cell));
 
             FireHandler fire = new FireHandler(this.game);
             try {
