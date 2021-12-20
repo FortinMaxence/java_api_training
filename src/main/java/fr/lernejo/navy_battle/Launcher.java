@@ -11,7 +11,7 @@ public class Launcher {
         final int port = Integer.parseInt(args[0]);
         Player player = new Player();
         Game game = new Game(player);
-        game.initGame();
+        //game.initGame();
 
         Server server = new Server(port, game);
         server.start();
