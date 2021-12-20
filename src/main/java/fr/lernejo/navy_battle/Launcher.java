@@ -23,8 +23,8 @@ public class Launcher {
                 return;
             }
             game.player.adversaryURL = args[1];
-            PostRequest postRequest = new PostRequest(port);
-            postRequest.sendPostRequest(args[1]);
+            //PostRequest postRequest = new PostRequest(port);
+            //postRequest.sendPostRequest(args[1]);
         }
     }
 }
